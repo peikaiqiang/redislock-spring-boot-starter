@@ -60,3 +60,17 @@ value
 先从 @RedisLockRequest配置的请求参数中获取，配置多个时，按配置的顺序获取，再从 @RedisLockParam中获取，多个时以下划线(_)分隔。如果取得的key为空，则会抛出异常，如果非空，则加上配置的前后缀。
 
 ### 例子
+```
+@RedisLock(prefix = "Pre", suffix = "Suf", blocked = true, retry = 3, timeout = 1000, error = "加锁失败，请重试！")
+@RedisLockRequest({"arg1", "arg2"})
+public void test(@RedisLockParam param1,
+                 @RedisLockParam("name") Map<String, Object> param2)
+http请求：/test?arg1=arg1&arg2=arg2
+请求内容：
+{
+    "name": "name"
+}
+
+如果获取锁成功，则key的值为：Pre_arg1_arg2_param1_name_Suf，锁的持续时间时120秒
+如果获取锁失败，则会等1s再重试获取，总共获取3次（包括第一次），如果最后获取失败，抛出异常："加锁失败，请重试！"
+```
