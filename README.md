@@ -8,8 +8,8 @@ RedisLock 是基于redis实现的分布式注解锁，原理很简单，就是�
 - pom 引入redis
 ```
 <dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-data-redis</artifactId>
+    <groupId>com.warmmen</groupId>
+    <artifactId>RedisLock</artifactId>
 </dependency>
 ```
 - redis 配置，具体参考官方文档
