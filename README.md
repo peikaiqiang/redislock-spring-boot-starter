@@ -2,7 +2,7 @@
 
 ### 简介
 RedisLock 是基于redis实现的分布式注解锁，原理很简单，就是在redis里面setnx一个key，如果这个key不存在，则加锁成功，多线程环境下再次进入这个方法就会加锁失败。
-代码是基于springboot，利用注解和切面实现，对项目没有依赖。切面的order是-1，也就是在spring事务切面的外层。因为都是注解实现，所以开箱即用，对原项目的依赖只有spring-boot-starter-data-redis，也就是redis的配置。
+代码是基于springboot，利用注解和切面实现，对项目没有依赖。切面的order是-1，也就是在spring事务切面的外层。注解实现，开箱即用，只需要配置spring redis即可。
 
 ### 配置
 - pom 引入redis
@@ -32,9 +32,11 @@ spring:
 prefix 前缀，redis中存的key值附加的前缀。
 suffix 后缀，redis中存的key值附加的后缀。
 blocked 是否阻塞获取锁，默认否。非阻塞获取会立马返回结果，阻塞获取会在失败时休眠一段时间再尝试获取，尝试次数可以配置，默认1次。
-error 获取锁失败时抛出的异常信息，默认："抛出的信息正在排队中，请稍后！"
+error 获取锁失败时抛出的异常信息，默认抛出的信息: "正在排队中，请稍后！"
 timeout 阻塞获取锁的超时时间，单位毫秒，默认500毫秒。
 retry 阻塞获取时，重试次数，默认1次，最小1次。
+
+锁的时长默认时120秒，可以通过配置redisLock.defaultTimeOut来修改锁持续的时间，单位秒。
 ```
 
 - @RedisLockRequest 方法注解
@@ -73,4 +75,6 @@ http请求：/test?arg1=arg1&arg2=arg2
 
 如果获取锁成功，则key的值为：Pre_arg1_arg2_param1_name_Suf，锁的持续时间时120秒
 如果获取锁失败，则会等1s再重试获取，总共获取3次（包括第一次），如果最后获取失败，抛出异常："加锁失败，请重试！"
+
+具体的可以参考项目中的Example模块
 ```
