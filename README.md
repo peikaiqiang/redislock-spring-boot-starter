@@ -25,6 +25,10 @@ spring:
         min-idle: 0
         max-wait: 10000
 ```
+- 扫描redislock切面
+```
+@ComponentScan("com.warmmen.core.lock")
+```
 ### 使用
 - @RedisLock 方法注解
 ```
