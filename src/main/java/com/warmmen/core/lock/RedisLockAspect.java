@@ -27,12 +27,9 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author
- *  peikaiqiang
- * @createTime
- *  2018/04/26
- * @description
- *  RedisLock 注解拦截器，拦截注解的方法，获取注解配置的参数，多个参数按顺序拼接再加上前后缀作为redis key值放入redis，
+ * @author  peikaiqiang
+ * @version  create at 2018/04/26
+ * @see  RedisLock 注解拦截器，拦截注解的方法，获取注解配置的参数，多个参数按顺序拼接再加上前后缀作为redis key值放入redis，
  * 放入成功则加锁成功，若第一个进入方法的线程未推出，则第二个进入方法的线程则获取不到锁，从而达到分布式加锁的目的。
  * 按照 RedisLock 的配置，实现相应的功能：包括阻塞，自定义前后缀，阻塞的超时时间，尝试次数，异常信息等。
  */
