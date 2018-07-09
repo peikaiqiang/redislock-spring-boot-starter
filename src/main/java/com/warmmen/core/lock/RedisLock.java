@@ -12,42 +12,42 @@ public @interface RedisLock {
     /**
      * 前缀
      *
-     * @return
+     * @return 前缀
      */
     String prefix() default "";
 
     /**
      * 后缀
      *
-     * @return
+     * @return 后缀
      */
     String suffix() default "";
 
     /**
      * 是否阻塞获取锁
      *
-     * @return
+     * @return 是否阻塞获取锁
      */
     boolean blocked() default false;
 
     /**
      * 抛出异常时，抛出的信息
      *
-     * @return
+     * @return 错误信息
      */
     String error() default "正在排队中，请稍后！";
 
     /**
-     * 阻塞获取锁的超时时间，单位毫秒，默认500毫秒
+     * 阻塞获取锁的超时时间
      *
-     * @return
+     * @return 阻塞获取锁的超时时间，单位毫秒，默认500毫秒
      */
     int timeout() default 500;
 
     /**
-     * 重试次数，默认1次，最小1次
+     * 重试次数
      *
-     * @return
+     * @return 重试次数，默认1次，最小1次
      */
     int retry() default 1;
 }
