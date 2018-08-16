@@ -3,6 +3,10 @@
 ### 简介
 redislock-spring-boot-starter 是基于redis实现的分布式注解锁，原理很简单，就是在redis里面setnx一个key，如果这个key不存在，则加锁成功，多线程环境下再次进入这个方法就会加锁失败。项目以spring-boot-starter的形式发布，引入方便。既可以以加注解的方式实现方法如入口层面的加锁，也可以注入相应的加锁类，以嵌入代码的形式加锁。作者更推荐使用注解的形式，注解切面的order是-1，也就是在spring事务切面的外层。开箱即用，只需要配置spring redis即可，该项目已经在作者的两家公司应用了，觉得不错记得点赞！
 
+**关于timeout的设置** 小于50毫秒则会直接休眠timeout的时间。大于50时，则第一次休眠50毫秒，此后休眠时间逐次翻倍，最后一次休眠的时间为剩余待休眠时间，即保证总休眠时间等于timeout的值。
+
+**关于key到期后的安全问题** key到期后，其他线程可以获取锁，这样就有可能有2个线程同时获取锁，目前的办法就是保证加锁时间内方法执行完。但是第一个超时方法执行完后是不会把第二个线程加的锁释放掉的。所以最多同时会有2个线程执行同一个方法。为什么一定要设置key的超时时间？因为程序被kill掉，保证超时时间到后其他线程还是有机会获取锁的，另外使用注入类的方式可能有忘掉释放锁的风险，所以必须加过期时间。
+
 ### 命名更新
 项目名称之前是RedisLock，考虑到用spring-boot-starter比较方便，所以使用官方推荐的命名方法。原项目1.0.0版本的jar包maven中央库，强烈建议更换新项目的maven dependency。
 
@@ -52,8 +56,6 @@ suffix 后缀，redis中存的key值附加的后缀。
 blocked 是否阻塞获取锁，默认否，非阻塞获取会立马返回结果。如果为true，则在第一次获取锁失败后，会多次休眠尝试重新获取锁。
 error 获取锁失败时抛出的异常信息，默认抛出的信息: "The lock has been occupied."
 timeout 阻塞获取锁的超时时间，单位毫秒，如不设值，则取全局的默认超时时间，默认500毫秒。也可以在 application.yml配置文件中修改redis-lock.timeout的值。如有设值，则该注解修饰的方法以timeout值作为超时时间。
-
-关于timeout的设置。小于50毫秒则会直接休眠timeout的时间。大于50时，则第一次休眠50毫秒，此后休眠时间逐次翻倍，最后一次休眠的时间为剩余待休眠时间，即保证总休眠时间等于timeout的值。
 ```
 
 - @RedisLockRequest 方法注解
@@ -73,6 +75,28 @@ value
 - RedisLockable 接口
 ```
 自定义获取参数的锁Key
+```
+### java 代码方式
+```
+@Autowired
+DefaultRedisLock defaultRedisLock;
+
+void doSomething() {
+    try {
+        boolean success = defaultRedisLock.tryLock("DO_SOMETHING", 100);
+        
+        if (success) {
+            // do something
+        }
+    } finally {
+        // unlock in finally
+        defaultRedisLock.unlock("DO_SOMETHING");
+    }
+}
+
+tryLock 和 lock 区别？
+lock加锁失败会抛出RedisLockException异常，tryLock不会。
+tryLock 可以加阻塞时间。
 ```
 
 ### 锁key的拼接顺序
