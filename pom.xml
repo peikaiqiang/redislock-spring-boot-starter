@@ -58,8 +58,8 @@
     </licenses>
     <scm>
         <tag>master</tag>
-        <url>https://github.com/peikaiqiang/RedisLock</url>
-        <connection>git@github.com:peikaiqiang/RedisLock.git</connection>
+        <url>https://github.com/peikaiqiang/redislock-spring-boot-starter</url>
+        <connection>git@github.com:peikaiqiang/redislock-spring-boot-starter.git</connection>
         <developerConnection>http://www.warmmen.com</developerConnection>
     </scm>
     <developers>

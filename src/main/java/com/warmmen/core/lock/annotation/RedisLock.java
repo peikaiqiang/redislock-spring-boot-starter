@@ -32,7 +32,6 @@ public @interface RedisLock {
      * @return 是否阻塞获取锁
      */
     boolean blocked() default false;
-
     /**
      * 抛出异常时，抛出的信息
      *
