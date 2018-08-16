@@ -13,11 +13,11 @@ import java.lang.annotation.Target;
 public @interface RedisLock {
 
     /**
-     * 前缀
+     * redis key 的值
      *
-     * @return 前缀
+     * @return
      */
-    String key() default "";
+    String value() default "";
 
     /**
      * 后缀

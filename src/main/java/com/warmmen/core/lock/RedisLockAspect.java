@@ -177,34 +177,12 @@ public class RedisLockAspect {
         RedisLock redisLock = method.getAnnotation(RedisLock.class);
 
         key = new StringBuilder()
-                .append(redisLock.key())
+                .append(redisLock.value())
                 .append(SPLIT)
                 .append(key.toString())
                 .append(redisLock.suffix());
 
         return key.toString();
-    }
-
-    private test cc;
-
-    public test getCc() {
-        return cc;
-    }
-
-    public void setCc(test cc) {
-        this.cc = cc;
-    }
-
-    class test {
-        String aa;
-
-        public String getAa() {
-            return aa;
-        }
-
-        public void setAa(String aa) {
-            this.aa = aa;
-        }
     }
 
     private String parse(Object root, String exp) {

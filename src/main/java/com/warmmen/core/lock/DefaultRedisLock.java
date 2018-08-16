@@ -71,7 +71,7 @@ public class DefaultRedisLock {
     /**
      * 加锁，失败抛出异常
      *
-     * @param key redis key
+     * @param key redis value
      */
     public void lock(String key) {
         key = getLockKey(key);
