@@ -1,4 +1,4 @@
-package com.warmmen.core.lock;
+package com.warmmen.core.lock.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,7 +17,7 @@ public @interface RedisLock {
      *
      * @return 前缀
      */
-    String prefix() default "";
+    String key() default "";
 
     /**
      * 后缀
@@ -38,19 +38,12 @@ public @interface RedisLock {
      *
      * @return 错误信息
      */
-    String error() default "正在排队中，请稍后！";
+    String error() default "";
 
     /**
      * 阻塞获取锁的超时时间
      *
-     * @return 阻塞获取锁的超时时间，单位毫秒，默认500毫秒
+     * @return 阻塞获取锁的超时时间，单位毫秒
      */
-    int timeout() default 500;
-
-    /**
-     * 重试次数
-     *
-     * @return 重试次数，默认1次，最小1次
-     */
-    int retry() default 1;
+    long timeout() default 0L;
 }

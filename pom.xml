@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>com.warmmen</groupId>
-    <artifactId>RedisLock</artifactId>
+    <artifactId>redislock-spring-boot-starter</artifactId>
     <version>1.0.0</version>
     <build>
         <plugins>
@@ -40,6 +40,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>1.5.12.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
             <version>1.5.12.RELEASE</version>
         </dependency>
     </dependencies>
