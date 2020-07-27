@@ -11,13 +11,6 @@ redislock-spring-boot-starter 是基于redis实现的分布式注解锁，原理
 项目名称之前是RedisLock，考虑到用spring-boot-starter比较方便，所以使用官方推荐的命名方法。原项目1.0.0版本的jar包maven中央库，强烈建议更换新项目的maven dependency。
 
 ### 配置
-- SpringBootApplication 引入注解 @EnableRedisLock
-```
-@EnableRedisLock
-@SpringBootApplication
-public class Application() {
-}
-```
 
 - pom 引入redis
 ```
